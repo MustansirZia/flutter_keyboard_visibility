@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import io.flutter.app.FlutterFragmentActivity;
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.EventSink;
@@ -54,7 +55,7 @@ public class KeyboardVisibilityPlugin implements StreamHandler, Application.Acti
 
     @Override
     public void onActivityStarted(Activity activity) {
-        if (activity instanceof FlutterActivity) {
+        if (activity instanceof FlutterActivity || activity instanceof FlutterFragmentActivity) {
             try {
                 mainView = ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
                 mainView.getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -74,7 +75,7 @@ public class KeyboardVisibilityPlugin implements StreamHandler, Application.Acti
 
     @Override
     public void onActivityStopped(Activity activity) {
-        if (activity instanceof FlutterActivity) {
+        if (activity instanceof FlutterActivity || activity instanceof FlutterFragmentActivity) {
             unregisterListener();
         }
     }
@@ -85,7 +86,7 @@ public class KeyboardVisibilityPlugin implements StreamHandler, Application.Acti
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        if (activity instanceof FlutterActivity) {
+        if (activity instanceof FlutterActivity || activity instanceof FlutterFragmentActivity) {
             unregisterListener();
         }
     }
